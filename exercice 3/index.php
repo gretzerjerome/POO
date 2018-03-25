@@ -1,7 +1,5 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+
 
  session_start();
  $username = "root";
@@ -10,37 +8,25 @@
  $bdname = "exercice";
 
  try {
-  //je me connecte a MySQL
-  //$bdd = new PDO('mysql:host=localhost;dbname=chat;charset=utf8', 'root', 'user');
   $bdd = new PDO('mysql:dbname='.$bdname.';host='.$host.";charset=utf8", $username, $password);
-}   
+}
 
 catch(Exception $e) {
-  // En cas d'erreur, on affiche un message et on arrête tout
   die('Erreur: ' .$e->getMessage());
 
 }
-//if ($conn->connect_error){
- // die("connection failed: " . $conn->connect_error);
-
-//}
-// echo "connected succefully";
-
 
 if(isset($_POST['se_connecter'])) {
-  //Vérifier que les champs ne sont pas vides
   if(!empty($_POST['pseudo']) AND !empty($_POST['mot_de_passe'])) {
 
-    
+
   $_POST['pseudo'] = filter_var($_POST['pseudo'],FILTER_SANITIZE_STRING);
   $_POST['mot_de_passe'] = filter_var($_POST['mot_de_passe'],FILTER_SANITIZE_STRING);
-  // echo "ok";
   $pseudo = htmlspecialchars($_POST['pseudo']);
   $mot_de_passe = sha1($_POST['mot_de_passe']);
-  // global $bdd;
-  
 
-    
+
+
   $requtil = $bdd->prepare('SELECT * FROM utilisateur WHERE pseudo = ? AND mot_de_passe = ?');
 
   $requtil->execute(array($pseudo, $mot_de_passe));
@@ -50,38 +36,35 @@ if(isset($_POST['se_connecter'])) {
           $_SESSION['id'] = $utilinfo[0]['id'];
           $_SESSION['pseudo'] = $utilinfo[0]['pseudo'];
           $_SESSION['mot_de_passe'] = $utilinfo[0]['mot_de_passe'];
-          //header("Location: /php-chat-db/chatroom.php/");
     }
 
     else {
-    
+
       $Error="vous n'êtes pas inscrit";
         echo($Error);
         echo($mot_de_passe);
-    } 
-  
+    }
 
-  }  
-  
+
+  }
+
 
 }
-// print_r($_SESSION);
 ?>
 <?php
 
 if(isset($_POST['se_deconnecter'])){
 
-// session_start();
 
 
-session_unset();//vider les données de la session
+session_unset();
 
-session_destroy();//detruire la session
-  
+session_destroy();
+
   header("Location: index.php");
 
 }
-  
+
 
 ?>
 
@@ -108,7 +91,7 @@ session_destroy();//detruire la session
           <input class="button" type="submit" name="se_deconnecter" value="Se deconnecter">
     <?php endif; ?>
   </div>
-</form> 
+</form>
   <div class="button-inscription">
     <?php if(empty($_SESSION['pseudo'])): ?>
       <a href="ex3.php"><button>Inscription</button></a>

@@ -7,25 +7,14 @@ $host = "localhost";
 $bdname = "exercice";
 
 try {
-    //je me connecte a MySQL
-    //$bdd = new PDO('mysql:host=localhost;dbname=chat;charset=utf8', 'root', 'user');
     $bdd = new PDO('mysql:dbname='.$bdname.';host='.$host.";charset=utf8", $username, $password);
-}   
+}
 
 catch(Exception $e) {
-    // En cas d'erreur, on affiche un message et on arrête tout
     die('Erreur: ' .$e->getMessage());
 
 }
-/*if ($conn->connect_error){
-    die("connection failed: " . $conn->connect_error);
 
-}
-echo "connected succefully";*/
-
-
-
-//pour le bouton envoyer
 if(isset($_POST['submit']) && !empty($_POST['pseudo']) && !empty($_POST['mot_de_passe']) && !empty($_POST['mail'])){
 
 
@@ -53,35 +42,29 @@ if(isset($_POST['submit']) && !empty($_POST['pseudo']) && !empty($_POST['mot_de_
 
                 $insertutil= $bdd->prepare("INSERT INTO utilisateur (pseudo, mot_de_passe, mail) VALUES ('".$pseudo."', '".$mot_de_passe."','".$mail."')");
                 $insertutil->execute(array(
-                    "pseudo" => $pseudo, 
-                    "mot_de_passe" => $mot_de_passe, 
+                    "pseudo" => $pseudo,
+                    "mot_de_passe" => $mot_de_passe,
                     "mail" => $mail));
                     header('location: index.php');
-                /*$SESSION['comptecree'] = "Votre compte a bien été créé!";*/
-            }       
+            }
                 else {
-                
+
                     $erreur = "Votre mail existe déjà!";
                 }
-            // echo "ok";*/
-
-        
-
-                //echo 'ok';
 
         }
         else {
             $erreur = "Ce pseudo est déjà utlisé!";
         }
-        
+
 }
 else {
 
     $erreur = "Tous les champs ne sont pas rempli!";
-    
-}                 
-        
-    
+
+}
+
+
 
 ?>
 
@@ -99,7 +82,7 @@ else {
     <script src="main.js"></script>
 </head>
 <body>
-    <section class="formulaire"> 
+    <section class="formulaire">
         <h1>Inscription</h1>
             <div class="enregistrer">
             <form method="post" action="ex3.php">
@@ -113,20 +96,20 @@ else {
                         <input class="button2" type="password" name="mot_de_passe" id="mot_de_passe" placeholder="obligatoire"></br>
                 </div>
                 <div class="mail">
-                    Email:    
+                    Email:
                         <input class="button3" type="text" name="mail" id="mail" placeholder="obligatoire"
                             value=<?php if(isset($mail)) {echo($mail); }?>></br>
                 </div>
-            </div>    
-                <div class="envoyer"> 
+            </div>
+                <div class="envoyer">
                         <input class="button4" type="submit" name="submit" value="Envoyer">
-                </div> 
+                </div>
             </form>
-                <?php 
+                <?php
                      if(isset($erreur)){
                          echo '<font color= "red"> '.$erreur."</font>";
                      }
-                ?> 
-    </section>    
+                ?>
+    </section>
 </body>
 </html>
